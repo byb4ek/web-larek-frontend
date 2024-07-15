@@ -5,7 +5,6 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="theme-color" content="#000000" />
 	<link rel="icon" href="/favicon.ico" />
-	<link rel="manifest" href="/manifest.json" />
 	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 	<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -157,6 +156,7 @@
 		</div>
 	</div>
 
+	// Темплейт успешного оформления заказа
 	<template id="success">
 		<div class="order-success">
 			<h2 class="order-success__title">Заказ оформлен</h2>
@@ -164,7 +164,8 @@
 			<button class="button order-success__close">За новыми покупками!</button>
 		</div>
 	</template>
-
+	
+	//Темплейт одной карточки из всего КАТАЛОГА 
 	<template id="card-catalog">
 		<button class="gallery__item card">
 			<span class="card__category card__category_soft">софт-скил</span>
@@ -174,6 +175,7 @@
 		</button>
 	</template>
 
+	//Темплейт объекта КАРТОЧКИ с описанием (модалки)
 	<template id="card-preview">
 		<div class="card card_full">
 			<img class="card__image" src="<%=require('../images/Subtract.svg')%>" alt="" />
@@ -189,6 +191,8 @@
 		</div>
 	</template>
 
+
+	//Темплейт объекта КАРТОЧКИ который в КОРЗИНЕ
 	<template id="card-basket">
 		<li class="basket__item card card_compact">
 			<span class="basket__item-index">1</span>
@@ -198,6 +202,7 @@
 		</li>
 	</template>
 
+	//Темплейт самой КОРЗИНЫ
 	<template id="basket">
 		<div class="basket">
 			<h2 class="modal__title">Корзина</h2>
@@ -209,6 +214,7 @@
 		</div>
 	</template>
 
+	//Форма с СПОСОБОМ ОПЛАТЫ и АДРЕСОМ
 	<template id="order">
 		<form class="form" name="order">
 			<div class="order">
@@ -231,6 +237,7 @@
 		</form>
 	</template>
 
+	// Темплейт с формой Email и Телефона
 	<template id="contacts">
 		<form class="form" name="contacts">
 			<div class="order">
