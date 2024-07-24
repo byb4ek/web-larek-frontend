@@ -1,6 +1,6 @@
 # Проектная работа "Веб-ларек"
 
-Стек: HTML, SCSS, TS, Webpack
+Стек: `HTML`, `SCSS`, `TS`, `Webpack`
 
 Структура проекта:
 
@@ -146,7 +146,7 @@ export type FormErrors = Partial<Record<keyof IOrder, string>>;
 
 Методы:
 
-- emmitChanges — регистрирует входящее событие в EventEmitter
+- `emmitChanges` — регистрирует входящее событие в EventEmitter
 
 #### Component
 
@@ -157,13 +157,13 @@ export type FormErrors = Partial<Record<keyof IOrder, string>>;
 
 Методы:
 
-- toggleClass - метод переключения классов
-- setText - метод установки текстового содержимого
-- setDisabled - метод сменить статус блокировки
-- setHidden - метод скрытия
-- setVisible - метод показать
-- setImage - метод установить изображения с алтернативным текстом
-- render - метод возвращения корневого DOM-элемента
+- `toggleClass` - метод переключения классов
+- `setText` - метод установки текстового содержимого
+- `setDisabled` - метод сменить статус блокировки
+- `setHidden` - метод скрытия
+- `setVisible` - метод показать
+- `setImage` - метод установить изображения с алтернативным текстом
+- `render` - метод возвращения корневого DOM-элемента
 
 #### Класс EventEmitter
 
@@ -411,8 +411,7 @@ interface IForm {
 - `_submit` - хранит разметку кнопки сабмита
 
 Конструктор:
--принимает `container:HTMLElement`, `evt:IEvent`,
-
+- принимает `container:HTMLElement`, `evt:IEvent`,
 - сохраняет информацию разметки в поля класса,
 - передает в родительский констрктор данные,
 - добавляет слушатели на сабмит и инпуты
@@ -490,8 +489,8 @@ interface IBasket{
 
 Методы
 
-set payment — устанавливает класс активности на кнопку
-set address — устанавливает значение поля адрес
+- `set payment` — устанавливает класс активности на кнопку
+- `set address` — устанавливает значение поля адрес
 
 ### Success
 
@@ -505,10 +504,8 @@ interface ISuccess{
 ```
 
 Поля:
-
-- `_total` -
-- `_image` -
-- `_button` -
+- `_total` - разметка общей суммы товаров 
+- `_close` - разметка кнопки закрытия окна
 
 Конструктор:
 
