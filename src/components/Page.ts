@@ -14,7 +14,6 @@ export class Page extends Component<IPage> {
     protected _wrapper: HTMLElement;
     protected _basket: HTMLElement;
 
-
     constructor(container: HTMLElement, protected events: IEvents) {
         super(container);
 

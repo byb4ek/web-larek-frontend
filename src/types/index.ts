@@ -17,11 +17,9 @@ export interface IAppDate {
   loading: boolean;
 }
 
-
 export interface IProductsList {
   products: IProductItem[];
 }
-
 
 export interface IOrderForm {
   payment?: string;
@@ -34,7 +32,6 @@ export interface IOrderForm {
 export interface IOrder extends IOrderForm {
   items: string[];
 }
-
 
 export type FormErrors = Partial<Record<keyof IOrder, string>>;
 

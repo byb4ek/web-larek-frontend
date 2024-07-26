@@ -285,7 +285,7 @@ export type FormErrors = Partial<Record<keyof IOrder, string>>;
 Класс расширяется Component<ICard>, а также в конструкторе используется интерфейс ICardAction
 
 ```
-inteface ICard {
+interface ICard {
 	title: string;
   category: string;
   image: string;
@@ -360,9 +360,9 @@ interface ICardBasket {
 
 Методы:
 
-- `get index` - установка данных индекса
-- `get title` - установка данных названия
-- `get price` - установка данных цены
+- `set index` - установка данных индекса
+- `set title` - установка данных названия
+- `set price` - установка данных цены
 
 ### Modal
 
