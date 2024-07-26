@@ -1,8 +1,6 @@
-import { FormErrors, IProductItem } from './../types/index';
+import { FormErrors, IOrderForm, IProductItem } from './../types/index';
 import { IAppDate, IOrder } from "../types/index";
-import { Component } from "./base/Component";
 import { Model } from "./base/Model";
-import { ProductItem } from "./ProductItem";
 
 export class Product extends Model<IProductItem> {
 	id: string;
@@ -44,34 +42,69 @@ export class AppData extends Model<IAppDate> {
 	}
 
 	getTotal() {
-		return this.order.items.reduce((acc, item) =>acc + this.catalog.find((product) => product.id === item).price, 0)
-	}
-	setOrderAddress() {
-		
-	}
-	setOrderContacts() {
-
+		return this.order.items.reduce((acc, item) => acc + this.catalog.find((product) => product.id === item).price, 0)
 	}
 
-	getBasket() {
-
+	setOrderAddress(item: keyof IOrderForm, value: string) {
+		this.order[item] = value;
+		if (this.validationOrderAddress()) {
+			this.events.emit(`order:ready`, this.order);
+		}
 	}
-	getStatusBasket() {
 
+	setOrderContacts(item: keyof IOrderForm, value: string) {
+		this.order[item] = value;
+		if (this.validationOrderContacts()) {
+			this.events.emit(`order:ready`, this.order);
+		}
 	}
-	addProductToOrder() {
 
+	get Basket(): Product[] {
+		return this.basket
 	}
-	removeProductFromOrder() {
 
+	get StatusBasket(): boolean {
+		return this.basket.length > 0
 	}
+
+	addProductToOrder(item: Product) {
+		this.order.items.push(item.id)
+	}
+
+	removeProductFromOrder(item: Product) {
+		this.order.items = this.order.items.filter((id) => id !== item.id)
+	}
+
 	clearBasket() {
-
+		this.basket = [];
+		this.order.items = [];
 	}
+
 	validationOrderAddress() {
+		const err: typeof this.formErrors = {};
+		if (!this.order.address) {
+			err.address = 'Заполните поле адреса';
+		}
+		if (!this.order.payment) {
+			err.payment = 'Заполните поле способа оплаты';
+		}
 
+		this.formErrors = err;
+		this.events.emit('formError:changed', err)
+		return Object.keys(err).length === 0
 	}
+
 	validationOrderContacts() {
-	}
+		const err: typeof this.formErrors = {};
+		if (!this.order.email) {
+			err.email = 'Заполните поле почты';
+		}
+		if (!this.order.phone) {
+			err.phone = 'Заполните поле номера телефона';
+		}
 
+		this.formErrors = err;
+		this.events.emit('formError:changed', err)
+		return Object.keys(err).length === 0
+	}
 }

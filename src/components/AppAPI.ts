@@ -1,6 +1,5 @@
-import { IOrderResult } from './../types/index';
 import { IOrder, IOrderResult, IProductItem } from "../types";
-import { Api, ApiListResponse } from "./base/api";
+import { Api, ApiListResponse } from "./base/Api";
 
 //Класс API
 export class AppAPI extends Api {

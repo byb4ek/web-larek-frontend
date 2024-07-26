@@ -1,6 +1,6 @@
 import { IProductItem } from "../types";
 import { Component } from "./base/Component";
-import { IEvents } from "./base/Events";
+import { IEvents } from "./base/events";
 
 export class ProductItem extends Component<IProductItem> {
 
