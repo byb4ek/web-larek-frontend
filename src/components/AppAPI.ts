@@ -1,10 +1,15 @@
 import { IOrder, IOrderResult, IProductItem } from "../types";
 import { Api, ApiListResponse } from "./base/Api";
 
+export interface IAppAPI {
+	getProductList(): Promise<IProductItem[]>;
+	orderProducts: (order: IOrder) => Promise<IOrderResult>;
+}
+
 //Класс API
-export class AppAPI extends Api {
-	readonly api: Api;
-	constructor(api: Api, baseUrl: string, options: RequestInit = {}) {
+export class AppAPI extends Api implements IAppAPI {
+	readonly api: string;
+	constructor(api: string, baseUrl: string, options?: RequestInit) {
 		super(baseUrl, options);
 		this.api = api;
 	}

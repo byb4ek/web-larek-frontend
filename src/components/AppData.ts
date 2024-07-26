@@ -2,7 +2,7 @@ import { FormErrors, IOrderForm, IProductItem } from './../types/index';
 import { IAppDate, IOrder } from "../types/index";
 import { Model } from "./base/Model";
 
-export class Product extends Model<IProductItem> {
+export class ProductItem extends Model<IProductItem> {
 	id: string;
 	title: string;
 	description: string;
@@ -12,9 +12,9 @@ export class Product extends Model<IProductItem> {
 }
 
 export class AppData extends Model<IAppDate> {
-	catalog: Product[];
-	preview: string;
-	basket: Product[] = [];
+	catalog: ProductItem[];
+	preview: string | null;
+	basket: ProductItem[] = [];
 	order: IOrder = {
 		payment: 'card',
 		address: '',
@@ -27,24 +27,48 @@ export class AppData extends Model<IAppDate> {
 
 	setCatalog(items: IProductItem[]) {
 		this.catalog = items.map((item) => {
-			return new Product(item, this.events)
+			return new ProductItem(item, this.events)
 		})
 		this.events.emit('catalog:loaded', this.catalog)
 	}
-	setPreview() {
-		this.preview
+	setPreview(item: ProductItem) {
+		this.preview = item.id;
+		this.emitChanges('preview:changed', item);
 	}
-	setProductToBasket(item: Product) {
+	
+	setProductToBasket(item: ProductItem) {
 		this.basket.push(item)
 	}
-	set Total(value: number) {
+	setTotal(value: number) {
 		this.order.total = value;
 	}
-
+	
 	getTotal() {
 		return this.order.items.reduce((acc, item) => acc + this.catalog.find((product) => product.id === item).price, 0)
 	}
 
+	getBasket(): ProductItem[] {
+		return this.basket
+	}
+
+	getStatusBasket(): boolean {
+		return this.basket.length > 0
+	}
+
+	addProductToOrder(item: ProductItem) {
+		this.order.items.push(item.id)
+	}
+
+	removeProductFromOrder(item: ProductItem) {
+		this.order.items = this.order.items.filter((id) => id !== item.id)
+	}
+
+	clearBasket() {
+		this.basket = [];
+		this.order.items = [];
+	}
+	
+	
 	setOrderAddress(item: keyof IOrderForm, value: string) {
 		this.order[item] = value;
 		if (this.validationOrderAddress()) {
@@ -57,27 +81,6 @@ export class AppData extends Model<IAppDate> {
 		if (this.validationOrderContacts()) {
 			this.events.emit(`order:ready`, this.order);
 		}
-	}
-
-	get Basket(): Product[] {
-		return this.basket
-	}
-
-	get StatusBasket(): boolean {
-		return this.basket.length > 0
-	}
-
-	addProductToOrder(item: Product) {
-		this.order.items.push(item.id)
-	}
-
-	removeProductFromOrder(item: Product) {
-		this.order.items = this.order.items.filter((id) => id !== item.id)
-	}
-
-	clearBasket() {
-		this.basket = [];
-		this.order.items = [];
 	}
 
 	validationOrderAddress() {

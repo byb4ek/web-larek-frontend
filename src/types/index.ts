@@ -20,8 +20,6 @@ export interface IAppDate {
 
 export interface IProductsList {
   products: IProductItem[];
-	preview: string | null;
-	getCard(productId: string): IProductItem;
 }
 
 

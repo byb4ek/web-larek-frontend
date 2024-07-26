@@ -1,15 +1,33 @@
 import { IProductItem } from "../types";
 import { Component } from "./base/Component";
-import { IEvents } from "./base/events";
+import { IEvents } from "./base/Events";
 
-export class ProductItem extends Component<IProductItem> {
+interface ICardsContainer {
+    catalog: HTMLElement[];
+}
+
+export class CardsContainer extends Component<ICardsContainer> {
+    protected _catalog: HTMLElement;
+    
+
+    constructor(protected container: HTMLElement) {
+        super(container)
+    }
+
+    set catalog(items: HTMLElement[]) {
+        this.container.replaceChildren(...items);
+    }
+}
+
+
+export class Product extends Component<IProductItem> {
 
 	protected events: IEvents;
 	protected productImage: HTMLDivElement;
 	protected productButton: HTMLButtonElement;
 	protected productTitle: HTMLElement;
 	protected productId: string;
-	//protected productDescription: HTMLElement;
+	protected productDescription: HTMLElement;
 	protected productCategory: HTMLElement;
 	protected productPrice: HTMLElement;
 
@@ -23,7 +41,7 @@ export class ProductItem extends Component<IProductItem> {
 		this.productTitle = document.querySelector('.card__title');
 		this.productImage = document.querySelector('.card__image');
 		this.productPrice = document.querySelector('.card__price');
-		//this.productDescription = document.querySelector('.card__text');
+		this.productDescription = document.querySelector('.card__text');
 
 
 		this.productButton.addEventListener("click",()=>{

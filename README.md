@@ -212,8 +212,8 @@ export type FormErrors = Partial<Record<keyof IOrder, string>>;
 - `setOrderAddress` - установить даныне окна адреса и способа оплаты
 - `setOrderContacts` - установить данные окна телефона и почты
 - `getTotal` - получить финальную сумму заказа
-- `get Basket` - получить данные из корзины
-- `get StatusBasket` - получить статус корзины
+- `getBasket` - получить данные из корзины
+- `getStatusBasket` - получить статус корзины
 - `addProductToOrder` - добавить данные карточки в заказ
 - `removeProductFromOrder` - убрать один продукт из заказа
 - `clearBasket` - очистить данные корзины
@@ -253,6 +253,7 @@ export type FormErrors = Partial<Record<keyof IOrder, string>>;
 
 - `set counter` - отвечает за установку счетчика
 - `set catalog` - отвечает за установку каталога
+- `set locked` - отвечает за не прокручивание страницы
 
 ### Card
 
