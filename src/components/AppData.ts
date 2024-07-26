@@ -31,25 +31,28 @@ export class AppData extends Model<IAppDate> {
 		this.catalog = items.map((item) => {
 			return new Product(item, this.events)
 		})
+		this.events.emit('catalog:loaded', this.catalog)
 	}
 	setPreview() {
-
+		this.preview
 	}
-	setProductToBasket() {
-
+	setProductToBasket(item: Product) {
+		this.basket.push(item)
 	}
-	setTotal() {
+	set Total(value: number) {
+		this.order.total = value;
+	}
 
+	getTotal() {
+		return this.order.items.reduce((acc, item) =>acc + this.catalog.find((product) => product.id === item).price, 0)
 	}
 	setOrderAddress() {
-
+		
 	}
 	setOrderContacts() {
 
 	}
-	getTotal() {
 
-	}
 	getBasket() {
 
 	}

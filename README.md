@@ -211,7 +211,7 @@ export type FormErrors = Partial<Record<keyof IOrder, string>>;
 - `setTotal` - установить финальную сумму заказа
 - `setOrderAddress` - установить даныне окна адреса и способа оплаты
 - `setOrderContacts` - установить данные окна телефона и почты
-- `get Total` - получить финальную сумму заказа
+- `getTotal` - получить финальную сумму заказа
 - `get Basket` - получить данные из корзины
 - `get StatusBasket` - получить статус корзины
 - `addProductToOrder` - добавить данные карточки в заказ
