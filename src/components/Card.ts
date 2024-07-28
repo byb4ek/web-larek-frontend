@@ -2,23 +2,6 @@ import { IProductItem } from "../types";
 import { Component } from "./base/Component";
 import { IEvents } from "./base/Events";
 
-/* interface ICardsContainer {
-	catalog: HTMLElement[];
-} */
-
-
-/* export class CardsContainer extends Component<ICardsContainer> {
-	protected _catalog: HTMLElement;
-	
-	constructor(protected container: HTMLElement) {
-		super(container)
-		}
-		
-		set catalog(items: HTMLElement[]) {
-			this.container.replaceChildren(...items);
-			}
-			} */
-
 export interface ICardAction {
 	onClick: (event: MouseEvent) => void;
 }
