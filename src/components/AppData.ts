@@ -13,7 +13,7 @@ export class ProductItem extends Model<IProductItem> {
 
 export class AppData extends Model<IAppDate> {
 	catalog: ProductItem[];
-	preview: string | null;
+	preview: string;
 	basket: ProductItem[] = [];
 	order: IOrder = {
 		payment: 'card',
@@ -30,6 +30,7 @@ export class AppData extends Model<IAppDate> {
 			return new ProductItem(item, this.events)
 		})
 		this.events.emit('catalog:loaded', this.catalog)
+		//this.events.emit('catalog:loaded', {catalog: this.catalog})
 	}
 	setPreview(item: ProductItem) {
 		this.preview = item.id;

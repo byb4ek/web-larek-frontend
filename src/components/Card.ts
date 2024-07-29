@@ -38,10 +38,10 @@ export class Card<T> extends Component<ICard> {
 		super(container);
 
 		this._category = document.querySelector('.card__category');
-		this._colorCategory = document.querySelector('.card__category');
 		this._title = document.querySelector('.card__title');
 		this._image = document.querySelector('.card__image');
 		this._price = document.querySelector('.card__price');
+		this._colorCategory = document.querySelector('.card__category');
 
 		if (actions?.onClick) {
 			container.addEventListener('click', actions.onClick);
@@ -68,8 +68,11 @@ export class Card<T> extends Component<ICard> {
 		//this._colorCategory.textContent = color;
 	};
 
-	render(productData: Partial<IProductItem> | undefined) {
-		if (!productData) return this.container;
+	render(productData: Partial<IProductItem>) {
+		if (!productData) {
+			console.log(this.container)
+			return this.container
+		};
 	}
 }
 
