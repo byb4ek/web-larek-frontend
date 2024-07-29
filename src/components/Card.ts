@@ -1,4 +1,5 @@
 import { IProductItem } from "../types";
+import { ensureElement } from "../utils/utils";
 import { Component } from "./base/Component";
 import { IEvents } from "./base/Events";
 
@@ -7,17 +8,16 @@ export interface ICardAction {
 }
 //onClick нужен для того чтобы в index.ts сделать действие, что то типа колбека 
 
-
 export interface ICard {
 	title: string;
 	category: string;
 	image: string;
 	price: number;
-	text: string;
+	text: string | null;
 }
 
 export interface ICardDescription {
-	description: HTMLElement;
+	description: string;
 }
 
 export interface ICardBasket {
@@ -29,7 +29,7 @@ export interface ICardBasket {
 export class Card<T> extends Component<ICard> {
 	protected events: IEvents;
 	protected _image: HTMLImageElement;
-	protected _category: HTMLButtonElement;
+	protected _category: HTMLElement;
 	protected _title: HTMLElement;
 	protected _price: HTMLElement;
 	protected _colorCategory: HTMLElement;
@@ -37,10 +37,10 @@ export class Card<T> extends Component<ICard> {
 	constructor(protected container: HTMLElement, actions?: ICardAction) {
 		super(container);
 
-		this._category = document.querySelector('.card__category');
-		this._title = document.querySelector('.card__title');
-		this._image = document.querySelector('.card__image');
-		this._price = document.querySelector('.card__price');
+		this._category = ensureElement<HTMLElement>(`.card__category`, container);
+		this._title = ensureElement<HTMLElement>(`.card__title`, container);
+		this._image = ensureElement<HTMLImageElement>(`.card__image`, container);
+		this._price = ensureElement<HTMLElement>(`.card__price`, container);
 		this._colorCategory = document.querySelector('.card__category');
 
 		if (actions?.onClick) {
@@ -49,31 +49,22 @@ export class Card<T> extends Component<ICard> {
 	}
 
 	set title(title: string) {
-		this._title.textContent = title;
+		this.setText(this._title, title);
 	};
 
 	set category(category: string) {
-		this._category.textContent = category;
+		this.setText(this._category, category);
 	};
+
 	set image(image: string) {
-		this._image.style.backgroundImage = `url(${image})`;
+		this.setImage(this._image, image, this.title);
 	};
 
 	set price(price: number | null) {
-		if (price === null) this._price.textContent = `Бесценно`;
-		this._price.textContent = `${price} синапсов`;
+		if (price === null) this.setText(this._price, `Бесценно`);
+		this.setText(this._price, `${price} синапсов`);
 	}
 
-	set colorCategory(color: string) {
-		//this._colorCategory.textContent = color;
-	};
-
-	render(productData: Partial<IProductItem>) {
-		if (!productData) {
-			console.log(this.container)
-			return this.container
-		};
-	}
 }
 
 export class CardPreview extends Card<ICardDescription> {
@@ -84,16 +75,17 @@ export class CardPreview extends Card<ICardDescription> {
 		super(container, actions);
 
 		this._button = document.querySelector(".card__button");
-		this._description = document.querySelector('.card__text');
+		this._description = ensureElement<HTMLElement>(`.card__text`, container);
 
 		if (actions?.onClick) {
 			if (this._button) {
+				container.removeEventListener('click', actions.onClick);
 				this._button.addEventListener('click', actions.onClick);
 			}
 		}
 	}
 
-	set description(value: string | string[]) {
+	set description(value: string) {
 		this.setText(this._description, value);
 	}
 }
@@ -106,20 +98,22 @@ export class CardBasket extends Component<ICardBasket> {
 
 	constructor(container: HTMLElement, actions?: ICardAction) {
 		super(container);
-		this._index = document.querySelector('.basket__item-index');
-		this._title = document.querySelector('.card__title');
-		this._price = document.querySelector('.card__price');
-		this._button = document.querySelector('.basket__item-delete');
+
+		this._title = ensureElement<HTMLElement>(`.card__title`, container);
+		this._price = ensureElement<HTMLElement>(`.card__price`, container);
+		this._index = ensureElement<HTMLElement>(`.basket__item-index`, container);
+		this._button = document.querySelector('.card__button');
 
 		if (actions?.onClick) {
 			if (this._button) {
+				container.removeEventListener('click', actions.onClick);
 				this._button.addEventListener('click', actions.onClick);
 			}
 		}
-
 	}
+
 	set index(value: number) {
-		this.setText(this._index, String(value));
+		this.setText(this._index, value);
 	}
 
 	set title(value: string) {
@@ -128,9 +122,8 @@ export class CardBasket extends Component<ICardBasket> {
 
 	set price(value: number) {
 		if (value === null) {
-			this._price.textContent = `Бесценно`;
+			this.setText(this._price, `Бесценно`);
 		}
-		this._price.textContent = `${value} синапсов`;
-
+		this.setText(this._price, `${value} синапсов`);
 	}
 }

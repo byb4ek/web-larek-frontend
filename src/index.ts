@@ -41,7 +41,7 @@ const basket = new Basket(cloneTemplate<HTMLTemplateElement>(modalBasketTemplate
 const orderAdress = new OrderAdress(cloneTemplate<HTMLFormElement>(modalOrderTemplate), events);
 const orderContacts = new OrderContacts(cloneTemplate<HTMLFormElement>(modalContactsTemplate), events);
 
-// логика приложения
+//Бизнес логика приложения
 events.on('catalog:loaded', () => {
 	page.catalog = appData.catalog.map(item => {
 		console.log(item);
@@ -56,48 +56,6 @@ events.on('catalog:loaded', () => {
 	});
 });
 
-events.on('card:select', (item: ProductItem) => {
-	appData.setPreview(item);
-})
-
-events.on('preview:changed', (item: ProductItem) => {
-	const cardPreview = new CardPreview(cloneTemplate(cardPreviewTemplate),
-		{ onClick: () => events.emit('card:add', item) });
-
-	modal.render({
-		content: cardPreview.render({
-			title: item.title,
-			description: item.description,
-			image: item.image,
-			price: item.price,
-			category: item.category,
-		})
-	})
-})
-
-events.on('card:select',(item: ProductItem) => {
-	appData.setPreview(item);
-})
-
-events.on("order:open", () => {
-	basket.setDisabled(basket._submitButton, appData.getStatusBasket());
-	basket.total = appData.getTotal();
-	let count = 1;
-	basket.items = appData.basket.map((item) => {
-		const card = new CardBasket(cloneTemplate(cardBasketTemplate),
-			{ onClick: () => events.emit('card:remove', item) });
-		return card.render({
-			title: item.title,
-			price: item.price,
-			index: count++
-		});
-	})
-
-	modal.render({
-		content: basket.render()
-	})
-
-})
 
 events.on('modal:open', () => {
 	page.locked = true;
