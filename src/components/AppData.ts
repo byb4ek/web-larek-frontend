@@ -30,8 +30,8 @@ export class AppData extends Model<IAppDate> {
 			return new ProductItem(item, this.events)
 		})
 		this.events.emit('catalog:loaded', this.catalog)
-		//this.events.emit('catalog:loaded', {catalog: this.catalog})
 	}
+
 	setPreview(item: ProductItem) {
 		this.preview = item.id;
 		this.emitChanges('preview:changed', item);
@@ -40,6 +40,7 @@ export class AppData extends Model<IAppDate> {
 	setProductToBasket(item: ProductItem) {
 		this.basket.push(item)
 	}
+
 	setTotal(value: number) {
 		this.order.total = value;
 	}
@@ -53,7 +54,9 @@ export class AppData extends Model<IAppDate> {
 	}
 
 	getStatusBasket(): boolean {
-		return this.basket.length > 0
+		// return this.basket.length > 0
+		return this.basket.length === 0
+
 	}
 
 	addProductToOrder(item: ProductItem) {
@@ -61,14 +64,23 @@ export class AppData extends Model<IAppDate> {
 	}
 
 	removeProductFromOrder(item: ProductItem) {
-		this.order.items = this.order.items.filter((id) => id !== item.id)
+		const index = this.order.items.indexOf(item.id);
+		if (index >= 0) {
+			this.order.items.splice(index, 1);
+		}
+	}
+
+	removeProductFromBasket(item:ProductItem){
+		const index = this.basket.indexOf(item);
+		if (index >= 0) {
+			this.basket.splice(index, 1);
+		}
 	}
 
 	clearBasket() {
 		this.basket = [];
 		this.order.items = [];
 	}
-	
 	
 	setOrderAddress(item: keyof IOrderForm, value: string) {
 		this.order[item] = value;

@@ -13,7 +13,7 @@ export interface ICard {
 	category: string;
 	image: string;
 	price: number;
-	text: string | null;
+	description: string | null;
 }
 
 export interface ICardDescription {
@@ -32,7 +32,13 @@ export class Card<T> extends Component<ICard> {
 	protected _category: HTMLElement;
 	protected _title: HTMLElement;
 	protected _price: HTMLElement;
-	protected _colorCategory: HTMLElement;
+	protected _categoryColor = <Record<string, string>> {
+    "софт-скил": "soft",
+    "другое": "other",
+    "дополнительное": "additional",
+    "кнопка": "button",
+    "хард-скил": "hard"
+  }
 
 	constructor(protected container: HTMLElement, actions?: ICardAction) {
 		super(container);
@@ -41,7 +47,6 @@ export class Card<T> extends Component<ICard> {
 		this._title = ensureElement<HTMLElement>(`.card__title`, container);
 		this._image = ensureElement<HTMLImageElement>(`.card__image`, container);
 		this._price = ensureElement<HTMLElement>(`.card__price`, container);
-		this._colorCategory = document.querySelector('.card__category');
 
 		if (actions?.onClick) {
 			container.addEventListener('click', actions.onClick);
@@ -54,6 +59,7 @@ export class Card<T> extends Component<ICard> {
 
 	set category(category: string) {
 		this.setText(this._category, category);
+    this._category.className = `card__category card__category_${this._categoryColor[category]}`
 	};
 
 	set image(image: string) {
