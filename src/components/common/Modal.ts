@@ -10,7 +10,7 @@ export class Modal extends Component<IModalData> {
     protected _closeButton: HTMLButtonElement;
     protected _content: HTMLElement;
 
-    constructor(container: HTMLElement, protected events: IEvents) {
+    constructor(container: HTMLElement, protected events?: IEvents) {
         super(container);
 
         this._closeButton = ensureElement<HTMLButtonElement>('.modal__close', container);
