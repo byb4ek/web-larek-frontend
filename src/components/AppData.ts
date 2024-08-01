@@ -1,20 +1,21 @@
 import { FormErrors, IOrderForm, IProductItem } from './../types/index';
 import { IAppDate, IOrder } from "../types/index";
 import { Model } from "./base/Model";
+import { Card } from './Card';
 
-export class ProductItem extends Model<IProductItem> {
+/* export class ProductItem extends Model<IProductItem> {
 	id: string;
 	title: string;
 	description: string;
 	category: string;
 	image: string;
 	price: number | null;
-}
+} */
 
 export class AppData extends Model<IAppDate> {
-	catalog: ProductItem[];
+	catalog: IProductItem[];
 	preview: string;
-	basket: ProductItem[] = [];
+	basket: IProductItem[] = [];
 	order: IOrder = {
 		payment: 'card',
 		address: '',
@@ -27,29 +28,30 @@ export class AppData extends Model<IAppDate> {
 
 	setCatalog(items: IProductItem[]) {
 		this.catalog = items.map((item) => {
-			return new ProductItem(item, this.events)
+
+			return item;
 		})
 		this.events.emit('catalog:loaded', this.catalog)
 	}
 
-	setPreview(item: ProductItem) {
+	setPreview(item: IProductItem) {
 		this.preview = item.id;
 		this.emitChanges('preview:changed', item);
 	}
-	
-	setProductToBasket(item: ProductItem) {
+
+	setProductToBasket(item: IProductItem) {
 		this.basket.push(item)
 	}
 
 	setTotal(value: number) {
 		this.order.total = value;
 	}
-	
+
 	getTotal() {
 		return this.order.items.reduce((acc, item) => acc + this.catalog.find((product) => product.id === item).price, 0)
 	}
 
-	getBasket(): ProductItem[] {
+	getBasket(): IProductItem[] {
 		return this.basket
 	}
 
@@ -59,29 +61,37 @@ export class AppData extends Model<IAppDate> {
 
 	}
 
-	addProductToOrder(item: ProductItem) {
+	addProductToOrder(item: IProductItem) {
 		this.order.items.push(item.id)
 	}
 
-	removeProductFromOrder(item: ProductItem) {
-		const index = this.order.items.indexOf(item.id);
-		if (index >= 0) {
+	removeProductFromOrder(item: IProductItem) {
+	/* 	const index = this.order.items.indexOf(item.id);
+		if (index !== -1) {
 			this.order.items.splice(index, 1);
-		}
+		} */
+		const index = this.order.items.indexOf(item.id);
+    if (index >= 0) {
+      this.order.items.splice( index, 1 );
+    }
 	}
 
-	removeProductFromBasket(item:ProductItem){
-		const index = this.basket.indexOf(item);
-		if (index >= 0) {
+	removeProductFromBasket(item: IProductItem) {
+		/* const index = this.basket.indexOf(item);
+		if (index !== -1) {
 			this.basket.splice(index, 1);
-		}
+		} */
+		const index = this.basket.indexOf(item);
+    if (index >= 0) {
+      this.basket.splice( index, 1 );
+    }
 	}
 
 	clearBasket() {
 		this.basket = [];
 		this.order.items = [];
 	}
-	
+
 	setOrderAddress(item: keyof IOrderForm, value: string) {
 		this.order[item] = value;
 		if (this.validationOrderAddress()) {

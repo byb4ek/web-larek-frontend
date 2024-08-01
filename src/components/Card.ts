@@ -6,7 +6,6 @@ import { IEvents } from "./base/Events";
 export interface ICardAction {
 	onClick: (event: MouseEvent) => void;
 }
-//onClick нужен для того чтобы в index.ts сделать действие, что то типа колбека 
 
 export interface ICard {
 	title: string;
@@ -108,9 +107,9 @@ export class CardBasket extends Component<ICardBasket> {
 		this._title = ensureElement<HTMLElement>(`.card__title`, container);
 		this._price = ensureElement<HTMLElement>(`.card__price`, container);
 		this._index = ensureElement<HTMLElement>(`.basket__item-index`, container);
-		this._button = document.querySelector('.card__button');
+		this._button = ensureElement<HTMLButtonElement>('.card__button', container);
 
-		if (actions?.onClick) {
+		if (actions?.onClick) { 	
 			if (this._button) {
 				container.removeEventListener('click', actions.onClick);
 				this._button.addEventListener('click', actions.onClick);
