@@ -178,8 +178,6 @@ events.on('contacts:submit', () => {
 
 events.on('order:completed', () => {
 	modal.close();
-	appData.clearBasket();
-	events.emit('basket:change');
 })
 
 events.on('modal:open', () => {
