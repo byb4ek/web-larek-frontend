@@ -79,7 +79,7 @@ events.on('preview:changed', (item: IProductItem) => {
 	if (item.price === null) {
 		card.activeButton = true;
 	}
-	
+
 });
 
 events.on('card:add', (item: IProductItem) => {
@@ -178,6 +178,8 @@ events.on('contacts:submit', () => {
 
 events.on('order:completed', () => {
 	modal.close();
+	appData.clearBasket();
+	events.emit('basket:change');
 })
 
 events.on('modal:open', () => {
@@ -188,9 +190,9 @@ events.on('modal:close', () => {
 	page.locked = false;
 });
 
-/* events.on('basket:success', () => {
+events.on('basket:success', () => {
 	events.emit("order:completed");
-}) */
+})
 
 api.getProductList()
 	.then(appData.setCatalog.bind(appData))
