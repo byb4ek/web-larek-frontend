@@ -1,5 +1,5 @@
 import { AppAPI } from './components/AppAPI';
-import { AppData,  } from './components/AppData';
+import { AppData, } from './components/AppData';
 import { EventEmitter } from './components/base/Events';
 import { Card, CardBasket, CardPreview } from './components/Card';
 import { Basket } from './components/common/Basket';
@@ -42,6 +42,7 @@ const orderAdress = new OrderAdress(cloneTemplate<HTMLFormElement>(modalOrderTem
 const orderContacts = new OrderContacts(cloneTemplate<HTMLFormElement>(modalContactsTemplate), events);
 const success = new Success(cloneTemplate<HTMLFormElement>(modalSuccessTemplate), events);
 
+
 //Бизнес логика приложения
 events.on('catalog:loaded', () => {
 	page.catalog = appData.catalog.map(item => {
@@ -64,7 +65,7 @@ events.on('preview:changed', (item: IProductItem) => {
 	const card = new CardPreview(cloneTemplate(cardPreviewTemplate), {
 		onClick: () => { events.emit('card:add', item); }
 	});
-	
+
 	modal.render({
 		content: card.render({
 			title: item.title,
@@ -74,13 +75,14 @@ events.on('preview:changed', (item: IProductItem) => {
 			description: item.description,
 		})
 	})
+
+	if (item.price === null) {
+		card.activeButton = true;
+	}
+	
 });
 
 events.on('card:add', (item: IProductItem) => {
-	if (item.price === null){
-		// Данное предупреждение можно убрать так как в макете не указано(но я оставил для информирования пользователя).
-		return alert('Цена продукта неизвестна, в корзину его не добавить.')
-	}
 	appData.addProductToOrder(item);
 	appData.setProductToBasket(item);
 	events.emit('basket:change');
@@ -166,16 +168,16 @@ events.on('contacts:submit', () => {
 		.then((result) => {
 			modal.render({
 				content: success.render({
-					total: appData.getTotal()
+					total: appData.getTotal(),
 				})
 			})
+			appData.clearBasket();
+			events.emit('basket:change');
 		});
 })
 
 events.on('order:completed', () => {
 	modal.close();
-	appData.clearBasket();
-	events.emit('basket:change');
 })
 
 events.on('modal:open', () => {
@@ -185,6 +187,10 @@ events.on('modal:open', () => {
 events.on('modal:close', () => {
 	page.locked = false;
 });
+
+/* events.on('basket:success', () => {
+	events.emit("order:completed");
+}) */
 
 api.getProductList()
 	.then(appData.setCatalog.bind(appData))

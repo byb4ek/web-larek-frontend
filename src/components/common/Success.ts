@@ -1,4 +1,3 @@
-import { Modal } from './Modal';
 import { Component } from "../base/Component";
 import { ensureElement } from "../../utils/utils";
 import { IEvents } from "../base/Events";
@@ -12,7 +11,7 @@ export class Success extends Component<ISuccess> {
 	protected _total: HTMLElement;
 	protected _closeButton: HTMLButtonElement;
 
-	constructor(container: HTMLElement,  events: IEvents) {
+	constructor(container: HTMLElement, events: IEvents) {
 		super(container, events);
 
 		this._close = ensureElement<HTMLElement>('.order-success__close', this.container);
@@ -21,7 +20,6 @@ export class Success extends Component<ISuccess> {
 		this._close.addEventListener('click', () => {
 			this.events.emit('order:completed');
 		})
-	
 	}
 
 	set total(total: string | number) {

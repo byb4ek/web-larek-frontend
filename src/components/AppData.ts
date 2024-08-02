@@ -1,16 +1,6 @@
 import { FormErrors, IOrderForm, IProductItem } from './../types/index';
 import { IAppDate, IOrder } from "../types/index";
 import { Model } from "./base/Model";
-import { Card } from './Card';
-
-/* export class ProductItem extends Model<IProductItem> {
-	id: string;
-	title: string;
-	description: string;
-	category: string;
-	image: string;
-	price: number | null;
-} */
 
 export class AppData extends Model<IAppDate> {
 	catalog: IProductItem[];
@@ -56,9 +46,7 @@ export class AppData extends Model<IAppDate> {
 	}
 
 	getStatusBasket(): boolean {
-		// return this.basket.length > 0
 		return this.basket.length === 0
-
 	}
 
 	addProductToOrder(item: IProductItem) {
@@ -66,10 +54,6 @@ export class AppData extends Model<IAppDate> {
 	}
 
 	removeProductFromOrder(item: IProductItem) {
-	/* 	const index = this.order.items.indexOf(item.id);
-		if (index !== -1) {
-			this.order.items.splice(index, 1);
-		} */
 		const index = this.order.items.indexOf(item.id);
     if (index >= 0) {
       this.order.items.splice( index, 1 );
@@ -77,10 +61,6 @@ export class AppData extends Model<IAppDate> {
 	}
 
 	removeProductFromBasket(item: IProductItem) {
-		/* const index = this.basket.indexOf(item);
-		if (index !== -1) {
-			this.basket.splice(index, 1);
-		} */
 		const index = this.basket.indexOf(item);
     if (index >= 0) {
       this.basket.splice( index, 1 );
