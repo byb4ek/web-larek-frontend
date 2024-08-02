@@ -188,9 +188,9 @@ events.on('modal:close', () => {
 	page.locked = false;
 });
 
-events.on('basket:success', () => {
+/* events.on('basket:success', () => {
 	events.emit("order:completed");
-})
+}) */
 
 api.getProductList()
 	.then(appData.setCatalog.bind(appData))
